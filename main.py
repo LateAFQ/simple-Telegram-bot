@@ -15,6 +15,7 @@ img = open('./data/1.jpg', 'rb')
 
 @bot.message_handler(commands=['start'])
 def start_handler(message):
+    print('test commit')
     markup = types.InlineKeyboardMarkup(row_width=1)
     btn2 = types.InlineKeyboardButton("😻Питомцы в наличии",callback_data='main')
     btn3 = types.InlineKeyboardButton("📌Информация о нас", callback_data='info')
