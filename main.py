@@ -104,6 +104,7 @@ def callback_inline(call):
                                                                                        "07.06.23,\n"
                                                                                        "F. ny1233,\n"
                                                                                        "M. by1133(1233)")
+
         markup = types.InlineKeyboardMarkup(row_width=1)
         btn10 = types.InlineKeyboardButton("◀️Назад", callback_data='back')
         btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page')
