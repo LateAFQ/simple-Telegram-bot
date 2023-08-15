@@ -12,6 +12,7 @@ token = "6474703393:AAE8JBaernftP0-SElrKPQU8wOyadjT49v0"
 bot = telebot.TeleBot(token)
 img = open('./data/1.jpg', 'rb')
 
+# TODO: add english language
 
 @bot.message_handler(commands=['start'])
 def start_handler(message):
