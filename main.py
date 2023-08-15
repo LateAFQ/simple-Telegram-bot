@@ -13,8 +13,6 @@ bot = telebot.TeleBot(token)
 img = open('./data/1.jpg', 'rb')
 
 
-
-
 @bot.message_handler(commands=['start'])
 def start_handler(message):
     markup = types.InlineKeyboardMarkup(row_width=1)
