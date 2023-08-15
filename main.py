@@ -105,25 +105,13 @@ def callback_inline(call):
                                                                                        "F. ny1233,\n"
                                                                                        "M. by1133(1233)")
         markup = types.InlineKeyboardMarkup(row_width=1)
-        btn7 = types.InlineKeyboardButton("Далее", callback_data="next3")
-        btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page')
-        markup.add(btn7, btn8)
-        bot.answer_callback_query(callback_query_id=call.id, show_alert=True)
-        bot.send_message(chat_id=call.message.chat.id, text="Нажмите 'далее' для фото следующего котёнка",
-                         reply_markup=markup)
-
-    elif call.data == 'next3':
-        bot.send_photo(call.message.chat.id, photo=open('./mail/3.jpg', 'rb'), caption="Amore Mia Edwin my 1133(1233),\n"
-                                                                                       "07.06.23,\n"
-                                                                                       "F. ny1233,\n"
-                                                                                       "M. by1133(1233)")
-        markup = types.InlineKeyboardMarkup(row_width=1)
         btn10 = types.InlineKeyboardButton("◀️Назад", callback_data='back')
         btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page')
-        markup.add(btn8, btn10)
+        markup.add(btn10, btn8)
         bot.answer_callback_query(callback_query_id=call.id, show_alert=True)
-        bot.send_message(chat_id=call.message.chat.id, text="Нажмите '◀️В главное меню' если хотите вернуться в основное окошко, \n"
-                                                            "Если хотите увидеть девочек (Female).Нажмите'◀️Назад' ",
+        bot.send_message(chat_id=call.message.chat.id,
+                         text="Нажмите '◀️В главное меню' если хотите вернуться в основное окошко, \n"
+                              "Если хотите увидеть девочек (Female).Нажмите'◀️Назад' ",
                          reply_markup=markup)
 
     elif call.data == 'back':
