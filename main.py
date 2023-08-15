@@ -1,19 +1,18 @@
 import telebot
 from telebot import types
-from time import sleep
-import os
+
+token = "6474703393:AAE8JBaernftP0-SElrKPQU8wOyadjT49v0"
+bot = telebot.TeleBot(token)
 
 picture = open('./data/2.jpg', 'rb')
 picture2 = open('./data/3.jpg','rb')
 picture3 = open('./mail/1.jpg','rb')
 picture4 = open('./mail/2.jpg','rb')
 picture5 = open('./mail/3.jpg', 'rb')
-token = "6474703393:AAE8JBaernftP0-SElrKPQU8wOyadjT49v0"
-bot = telebot.TeleBot(token)
 img = open('./data/1.jpg', 'rb')
 
-# TODO: add english language
 
+# TODO: add english language
 @bot.message_handler(commands=['start'])
 def start_handler(message):
     print('test commit')
