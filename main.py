@@ -12,7 +12,7 @@ picture5 = open('./mail/3.jpg', 'rb')
 img = open('./data/1.jpg', 'rb')
 
 
-# TODO: Под фото котят, добавь кнопку "Забронировать"
+
 # TODO: Сделай так, чтобы при нажатии на кнопки, удалялась предыдущая информация (Это делать последним)
 @bot.message_handler(commands=['start'])
 def start_handler(message):
