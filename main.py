@@ -274,7 +274,7 @@ def callback_inline(call):
         btn1 = types.InlineKeyboardButton("🐱Female", callback_data="cotgirl1")
         btn2 = types.InlineKeyboardButton("😸Male", callback_data="cotman1")
         markup.row(btn1, btn2)
-        btn6 = types.InlineKeyboardButton("◀️To main menu", callback_data='back_to_main_page1')
+        btn6 = types.InlineKeyboardButton("◀️To main menu ", callback_data='back_to_main_page1')
         markup.row(btn6)
         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                               text="Select your pet's gender:", reply_markup=markup)
