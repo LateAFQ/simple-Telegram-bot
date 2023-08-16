@@ -105,7 +105,8 @@ def callback_inline(call):
         btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page')
         markup.row(btn8)
         bot.answer_callback_query(callback_query_id=call.id, show_alert=True)
-        bot.send_message(chat_id=call.message.chat.id,text="test",reply_markup=markup)
+        bot.edit_message_reply_markup(chat_id=c.message.chat.id, inline_message_id=c.message.chat.id,
+                                      reply_markup=cotman)
 
     elif call.data == 'next':
         bot.send_photo(call.message.chat.id, photo=open('./data/3.jpg', 'rb'), caption="Amore Mia Frida ny12,\n"
