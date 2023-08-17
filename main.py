@@ -5,6 +5,8 @@ from telebot import types
 token = "6474703393:AAE8JBaernftP0-SElrKPQU8wOyadjT49v0"
 bot = telebot.TeleBot(token)
 
+# TODO: сделай 2 массива, в котором будут лежать все картинки. 1 для мальчиков, другой девочки.
+# TODO: в массив должны добавляться фотки из папки. Те тебе нужно с помощь функции просмотреть все файлы в каждой папке и добавить названия файлов в массивы
 picture = open('./data/2.jpg', 'rb')
 picture2 = open('./data/3.jpg','rb')
 picture3 = open('./mail/1.jpg','rb')
@@ -12,8 +14,6 @@ picture4 = open('./mail/2.jpg','rb')
 picture5 = open('./mail/3.jpg', 'rb')
 img = open('./data/1.jpg', 'rb')
 
-
-# TODO: В основном окне (приветствие),добавить смену языков
 
 @bot.message_handler(commands=['start'])
 def start_handler(message):
@@ -43,7 +43,9 @@ def callback_inline(call):
         markup = types.InlineKeyboardMarkup(row_width=1)
         btn1 = types.InlineKeyboardButton("📱Вконтакте", url="https://vk.com/id172609070")
         btn2 = types.InlineKeyboardButton("📱Инстаграм", url="https://www.instagram.com/amore_mia_cattery")
+        # TODO: ссылку на телегу добавить нужно, а не на вк
         btn3 = types.InlineKeyboardButton("📱Телеграмм", url="https://vk.com/id172609070")
+        # TODO: то что не используется, удаляй, в крайнем случае комментируй
         btn4 = types.InlineKeyboardButton("📞Контактный номер заводчика", callback_data='number')
         btn5 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page')
         markup.add(btn1,btn2,btn5)
@@ -79,6 +81,7 @@ def callback_inline(call):
         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                                 text="Выберите пол питомца:", reply_markup=markup)
 
+    # TODO: ЕЩЕ РАЗ НАПИШУ, cotgirl?? нейминг ужасный
     elif call.data == 'cotgirl':
         bot.send_photo(call.message.chat.id, photo=open('./data/2.jpg', 'rb'))
         markup = types.InlineKeyboardMarkup(row_width=1)
@@ -93,6 +96,7 @@ def callback_inline(call):
                          "F.BLN ny12 \n"
                          "M. ny25", reply_markup=markup)
 
+    # TODO: нейминг
     elif call.data == 'cotman':
         bot.send_photo(call.message.chat.id, photo=open('./mail/1.jpg', 'rb'))
         markup = types.InlineKeyboardMarkup(row_width=1)
