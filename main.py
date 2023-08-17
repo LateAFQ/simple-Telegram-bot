@@ -173,8 +173,8 @@ def callback_inline(call):
                                    "📎Доступные контакты ,социальные сети ,вы найдете в пункте  «информация о нас».",
                               reply_markup=markup, parse_mode='html')
 
-    females_en = os.listdir('./girl')
-    for i in females_en:
+     females_en = os.listdir('./girl')
+    # доделат for i in females_en:
         if call.data == i:
             bot.delete_message(call.message.chat.id, call.message.message_id)
             bot.delete_message(call.message.chat.id, call.message.message_id - 1)
@@ -195,7 +195,7 @@ def callback_inline(call):
                                                                 " 08.06.23 \n"
                                                                 "F.BLN ny12 \n"
                                                                 "M. ny25", reply_markup=markup)
-
+# доделать
     for i in male:
         male_en = os.listdir('./boy')
         if call.data == i:
