@@ -174,7 +174,7 @@ def callback_inline(call):
                               reply_markup=markup, parse_mode='html')
 
      females_en = os.listdir('./girl')
-    # доделат for i in females_en:
+    # доделать for i in females_en:
         if call.data == i:
             bot.delete_message(call.message.chat.id, call.message.message_id)
             bot.delete_message(call.message.chat.id, call.message.message_id - 1)
