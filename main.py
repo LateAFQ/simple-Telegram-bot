@@ -1,17 +1,14 @@
 import telebot
+import os
 from telebot import types
 
 
 token = "6474703393:AAE8JBaernftP0-SElrKPQU8wOyadjT49v0"
 bot = telebot.TeleBot(token)
 
-# TODO: сделай 2 массива, в котором будут лежать все картинки. 1 для мальчиков, другой девочки.
-# TODO: в массив должны добавляться фотки из папки. Те тебе нужно с помощь функции просмотреть все файлы в каждой папке и добавить названия файлов в массивы
-picture = open('girl/2.jpg', 'rb')
-picture2 = open('girl/3.jpg', 'rb')
-picture3 = open('boy/1.jpg', 'rb')
-picture4 = open('boy/2.jpg', 'rb')
-picture5 = open('boy/3.jpg', 'rb')
+# TODO: Убрать дублирование кода, поработать над неймингом
+females = os.listdir('./girl')
+male = os.listdir('./boy')
 img = open('girl/1.jpg', 'rb')
 
 
@@ -27,6 +24,49 @@ def start_handler(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
+    global females, male
+    for i in females:
+        if call.data == i:
+            bot.delete_message(call.message.chat.id, call.message.message_id)
+            bot.delete_message(call.message.chat.id, call.message.message_id - 1)
+            bot.send_photo(call.message.chat.id, photo=open(f'''./girl/{i}''', 'rb'))
+            markup = types.InlineKeyboardMarkup(row_width=1)
+
+            if females.index(i) + 1 > len(females) - 1:
+                btn9 = types.InlineKeyboardButton("Забронировать", callback_data='book')
+                btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page33')
+                markup.add(btn9, btn8)
+            else:
+                btn7 = types.InlineKeyboardButton("Далее", callback_data=females[females.index(i) + 1])
+                btn9 = types.InlineKeyboardButton("Забронировать", callback_data='book')
+                btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page33')
+                markup.add(btn7, btn9, btn8)
+
+            bot.send_message(chat_id=call.message.chat.id, text="Amore Mia ny12, 08.06.23       \n"
+                         "F.BLN ny12 \n"
+                         "M. ny25", reply_markup=markup)
+
+    for i in male:
+        if call.data == i:
+            bot.delete_message(call.message.chat.id, call.message.message_id)
+            bot.delete_message(call.message.chat.id, call.message.message_id - 1)
+            bot.send_photo(call.message.chat.id, photo=open(f'''./boy/{i}''', 'rb'))
+            markup = types.InlineKeyboardMarkup(row_width=1)
+
+            if male.index(i) + 1 > len(male) - 1:
+                btn9 = types.InlineKeyboardButton("Забронировать", callback_data='book')
+                btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page33')
+                markup.add(btn9, btn8)
+            else:
+                btn7 = types.InlineKeyboardButton("Далее", callback_data=male[male.index(i) + 1])
+                btn9 = types.InlineKeyboardButton("Забронировать", callback_data='book')
+                btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page33')
+                markup.add(btn7, btn9, btn8)
+
+            bot.send_message(chat_id=call.message.chat.id, text="Amore Mia ny12, 08.06.23       \n"
+                         "F.BLN ny12 \n"
+                         "M. ny25", reply_markup=markup)
+
     if call.data == "ru":
         markup = types.InlineKeyboardMarkup(row_width=1)
         btn1 = types.InlineKeyboardButton("😻Питомцы в наличии", callback_data='main')
@@ -83,29 +123,28 @@ def callback_inline(call):
 
     # TODO: ЕЩЕ РАЗ НАПИШУ, cotgirl?? нейминг ужасный
     elif call.data == 'cotgirl':
-        bot.send_photo(call.message.chat.id, photo=open('girl/2.jpg', 'rb'))
+        bot.delete_message(call.message.chat.id, call.message.message_id)
+
+        bot.send_photo(call.message.chat.id, photo=open(f'''./girl/{females[0]}''', 'rb'))
         markup = types.InlineKeyboardMarkup(row_width=1)
-        btn7 = types.InlineKeyboardButton("Далее", callback_data="next")
+        btn7 = types.InlineKeyboardButton("Далее", callback_data=females[1])
         btn9 = types.InlineKeyboardButton("Забронировать", callback_data='book')
         btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page33')
-        markup.row(btn7, btn8, btn9)
-        bot.delete_message(call.message.chat.id, call.message.message_id)
-        bot.answer_callback_query(callback_query_id=call.id, show_alert=True)
-        bot.send_message(chat_id=call.message.chat.id, text="Amore Mia ny12,\n"
-                        "08.06.23 \n"
-                         "F.BLN ny12 \n"
-                         "M. ny25", reply_markup=markup)
+        markup.add(btn7, btn9, btn8)
+
+        bot.send_message(chat_id=call.message.chat.id, text="Amore Mia ny12, 08.06.23       \n"
+                     "F.BLN ny12 \n"
+                     "M. ny25", reply_markup=markup)
 
     # TODO: нейминг
     elif call.data == 'cotman':
-        bot.send_photo(call.message.chat.id, photo=open('boy/1.jpg', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open(f'''./boy/{male[0]}''', 'rb'))
         markup = types.InlineKeyboardMarkup(row_width=1)
-        btn7 = types.InlineKeyboardButton("Далее", callback_data="next2")
+        btn7 = types.InlineKeyboardButton("Далее", callback_data=male[1])
         btn9 = types.InlineKeyboardButton("Забронировать", callback_data='book')
         btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page33')
-        markup.row(btn7,btn8, btn9)
+        markup.add(btn7,btn8, btn9)
         bot.delete_message(call.message.chat.id, call.message.message_id)
-        bot.answer_callback_query(callback_query_id=call.id, show_alert=True)
         bot.send_message(chat_id=call.message.chat.id, text="Amore Mia Eaton ny1133(1233)\n"
                          "07.06.23 \n"
                          "F. ny1233,\n"
@@ -126,7 +165,7 @@ def callback_inline(call):
                          "M. ny25", reply_markup=markup)
 
     elif call.data == 'next2':
-        bot.send_photo(call.message.chat.id, photo=open('boy/2.jpg', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open('boy/44444.jpg', 'rb'))
         markup = types.InlineKeyboardMarkup(row_width=1)
         btn9 = types.InlineKeyboardButton("Забронировать", callback_data='book')
         btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page33')
@@ -141,7 +180,7 @@ def callback_inline(call):
 
     elif call.data == 'back':
         markup = types.InlineKeyboardMarkup(row_width=1)
-        btn4 = types.InlineKeyboardButton("🐱Female", callback_data="cotgirl")
+        btn4 = types.InlineKeyboardButton("🐱females", callback_data="cotgirl")
         btn5 = types.InlineKeyboardButton("😸Male", callback_data="cotman")
         markup.row(btn4, btn5)
         btn6 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page33')
@@ -220,7 +259,7 @@ def callback_inline(call):
 
     elif call.data == 'main1':
         markup = types.InlineKeyboardMarkup(row_width=1)
-        btn1 = types.InlineKeyboardButton("🐱Female", callback_data="cotgirl1")
+        btn1 = types.InlineKeyboardButton("🐱females", callback_data="cotgirl1")
         btn2 = types.InlineKeyboardButton("😸Male", callback_data="cotman1")
         markup.row(btn1, btn2)
         btn6 = types.InlineKeyboardButton("◀️To main menu", callback_data='back_to_main_page1')
@@ -243,7 +282,7 @@ def callback_inline(call):
                                                             "M. ny25", reply_markup=markup)
 
     elif call.data == 'cotman1':
-        bot.send_photo(call.message.chat.id, photo=open('boy/1.jpg', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open('boy/1123123.jpg', 'rb'))
         markup = types.InlineKeyboardMarkup(row_width=1)
         btn1 = types.InlineKeyboardButton("Further", callback_data="next3")
         btn2 = types.InlineKeyboardButton("book", callback_data='book1')
@@ -271,7 +310,7 @@ def callback_inline(call):
                                                             "M. ny25", reply_markup=markup)
 
     elif call.data == 'next3':
-        bot.send_photo(call.message.chat.id, photo=open('boy/2.jpg', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open('boy/44444.jpg', 'rb'))
         markup = types.InlineKeyboardMarkup(row_width=1)
         btn2 = types.InlineKeyboardButton("book", callback_data='book1')
         btn3 = types.InlineKeyboardButton("◀️To main menu", callback_data='back_to_main_page12')
@@ -286,7 +325,7 @@ def callback_inline(call):
 
     elif call.data == 'back1':
         markup = types.InlineKeyboardMarkup(row_width=1)
-        btn1 = types.InlineKeyboardButton("🐱Female", callback_data="cotgirl1")
+        btn1 = types.InlineKeyboardButton("🐱females", callback_data="cotgirl1")
         btn2 = types.InlineKeyboardButton("😸Male", callback_data="cotman1")
         markup.row(btn1, btn2)
         btn6 = types.InlineKeyboardButton("◀️To main menu ", callback_data='back_to_main_page1')
