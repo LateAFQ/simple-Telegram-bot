@@ -9,6 +9,7 @@ bot = telebot.TeleBot(token)
 
 females = os.listdir('./girl')
 male = os.listdir('./boy')
+
 females_en = os.listdir('./girl_en')
 male_en = os.listdir('./boy_en')
 
@@ -25,12 +26,12 @@ def start_handler(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
-    global females, male, females_en
+    global male_en, females_en
     for j in females_en:
         if call.data == j:
               bot.delete_message(call.message.chat.id, call.message.message_id)
               bot.delete_message(call.message.chat.id, call.message.message_id - 1)
-              bot.send_photo(call.message.chat.id, photo=open(f'''./girl/{j}''', 'rb'))
+              bot.send_photo(call.message.chat.id, photo=open(f'''./girl_en/{j}''', 'rb'))
               markup = types.InlineKeyboardMarkup(row_width=1)
 
               if females_en.index(j) + 1 > len(females_en) - 1:
@@ -51,15 +52,15 @@ def callback_inline(call):
         if call.data == i:
             bot.delete_message(call.message.chat.id, call.message.message_id)
             bot.delete_message(call.message.chat.id, call.message.message_id - 1)
-            bot.send_photo(call.message.chat.id, photo=open(f'''./boy/{i}''', 'rb'))
+            bot.send_photo(call.message.chat.id, photo=open(f'''./boy_en/{i}''', 'rb'))
             markup = types.InlineKeyboardMarkup(row_width=1)
 
-            if male.index(i) + 1 > len(male) - 1:
+            if male_en.index(i) + 1 > len(male_en) - 1:
                 btn9 = types.InlineKeyboardButton("book", callback_data='book')
                 btn8 = types.InlineKeyboardButton("◀️️To main menu", callback_data='back_to_main_page_cats_en')
                 markup.add(btn9, btn8)
             else:
-                btn7 = types.InlineKeyboardButton("Далее", callback_data=male[male.index(i) + 1])
+                btn7 = types.InlineKeyboardButton("Further", callback_data=male_en[male_en.index(i) + 1])
                 btn9 = types.InlineKeyboardButton("book", callback_data='book_en')
                 btn8 = types.InlineKeyboardButton("◀️️To main menu", callback_data='back_to_main_page_cats_en')
                 markup.add(btn7, btn9, btn8)
@@ -279,9 +280,9 @@ def callback_inline(call):
                                                             "M. ny25", reply_markup=markup)
 
     elif call.data == 'boy_en':
-        bot.send_photo(call.message.chat.id, photo=open(f'''./boy/{male[0]}''', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open(f'''./boy_en/{male_en[0]}''', 'rb'))
         markup = types.InlineKeyboardMarkup(row_width=1)
-        btn1 = types.InlineKeyboardButton("Further", callback_data=male[1])
+        btn1 = types.InlineKeyboardButton("Further", callback_data=male_en[1])
         btn2 = types.InlineKeyboardButton("book", callback_data='book_en')
         btn3 = types.InlineKeyboardButton("◀️To main menu", callback_data='back_to_main_page_cats_en')
         markup.row(btn1, btn2, btn3)
