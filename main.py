@@ -9,9 +9,9 @@ bot = telebot.TeleBot(token)
 
 females = os.listdir('./girl')
 male = os.listdir('./boy')
-
 females_en = os.listdir('./girl')
 male_en = os.listdir('./boy')
+
 
 @bot.message_handler(commands=['start'])
 def start_handler(message):
@@ -25,30 +25,27 @@ def start_handler(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
-    if call.data == "females_en[1]":
-        females_en = os.listdir('./girl')
-        male_en = os.listdir('./boy')
-        for j in females_en:
-            if call.data == j:
-                bot.send_photo(call.message.chat.id, photo=open(f'''./girl/{j}''', 'rb'))
-                markup = types.InlineKeyboardMarkup(row_width=1)
+    global females, male, females_en
+    # for j in females_en:
+    #     if call.data == j:
+    #         bot.send_photo(call.message.chat.id, photo=open(f'''./girl/{j}''', 'rb'))
+    #         markup = types.InlineKeyboardMarkup(row_width=1)
+    #
+    #         if females_en.index(j) + 1 > len(females_en) - 1:
+    #             btn9 = types.InlineKeyboardButton("book", callback_data='book')
+    #             btn8 = types.InlineKeyboardButton("◀️️To main menu", callback_data='back_to_main_page_cats_en')
+    #             markup.add(btn9, btn8)
+    #             bot.delete_message(call.message.chat.id, call.message.message_id - 4)
+    #         else:
+    #             btn7 = types.InlineKeyboardButton("Further", callback_data=females_en[females_en.index(j) + 1])
+    #             btn9 = types.InlineKeyboardButton("book", callback_data='book')
+    #             btn8 = types.InlineKeyboardButton("◀️️To main menu", callback_data='back_to_main_page_cats_en')
+    #             markup.add(btn7, btn9, btn8)
+    #         bot.send_message(chat_id=call.message.chat.id, text="Amore Mia Frida ny12 \n"
+    #                                                         " 08.06.23 \n"
+    #                                                         "F.BLN ny12 \n"
+    #                                                         "M. ny25", reply_markup=markup)
 
-                if females_en.index(j) + 1 > len(females_en) - 1:
-                    btn9 = types.InlineKeyboardButton("book", callback_data='book')
-                    btn8 = types.InlineKeyboardButton("◀️️To main menu", callback_data='back_to_main_page_cats_en')
-                    markup.add(btn9, btn8)
-                    bot.delete_message(call.message.chat.id, call.message.message_id - 4)
-                else:
-                    btn7 = types.InlineKeyboardButton("Further", callback_data=females_en[females_en.index(j) + 1])
-                    btn9 = types.InlineKeyboardButton("book", callback_data='book')
-                    btn8 = types.InlineKeyboardButton("◀️️To main menu", callback_data='back_to_main_page_cats_en')
-                    markup.add(btn7, btn9, btn8)
-                bot.send_message(chat_id=call.message.chat.id, text="Amore Mia Frida ny12 \n"
-                                                                " 08.06.23 \n"
-                                                                "F.BLN ny12 \n"
-                                                                "M. ny25", reply_markup=markup)
-
-    global females, male
     for i in females:
         if call.data == i:
             bot.delete_message(call.message.chat.id, call.message.message_id)
@@ -194,6 +191,7 @@ def callback_inline(call):
                               reply_markup=markup, parse_mode='html')
 
     if call.data == "en":
+        locale = 'eng'
         markup = types.InlineKeyboardMarkup(row_width=1)
         btn1 = types.InlineKeyboardButton("😻Pets available", callback_data='main_en')
         btn2 = types.InlineKeyboardButton("📌Information about us", callback_data='info_en')
