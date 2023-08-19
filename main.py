@@ -36,13 +36,27 @@ def callback_inline(call):
 
             if females_en.index(j) + 1 > len(females_en) - 1:
                 btn9 = types.InlineKeyboardButton("📝buy", callback_data='buy_en')
+                btn7 = types.InlineKeyboardButton("◀️back", callback_data=females_en[females_en.index(j) - 1])
                 btn8 = types.InlineKeyboardButton("◀️️To main menu", callback_data='back_to_main_page_cats_en')
-                markup.add(btn9, btn8)
+                markup.add(btn9,btn7, btn8)
+
+            elif females_en.index(j) == 0:
+                btn7 = types.InlineKeyboardButton("📝buy", callback_data="buy_en")
+                btn9 = types.InlineKeyboardButton("▶️Further", callback_data=females_en[females_en.index(j) + 1])
+                btn8 = types.InlineKeyboardButton("◀️To main menu", callback_data='back_to_main_page_cats_en')
+                markup.add(btn7, btn9, btn8)
+                bot.send_message(chat_id=call.message.chat.id, text="Amore Mia ny12 \n"
+                                                                    " 08.06.23\n"
+                                                                    "F.BLN ny12 \n"
+                                                                    "M. ny25", reply_markup=markup)
+                bot.delete_message(call.message.chat.id, call.message.message_id)
+
             else:
                 btn7 = types.InlineKeyboardButton("▶️Further", callback_data=females_en[females_en.index(j) + 1])
                 btn9 = types.InlineKeyboardButton("📝buy", callback_data='buy_en')
+                btn10 = types.InlineKeyboardButton("◀️back", callback_data=females_en[females_en.index(j) - 1])
                 btn8 = types.InlineKeyboardButton("◀️️To main menu", callback_data='back_to_main_page_cats_en')
-                markup.add(btn7,btn8,btn9)
+                markup.add(btn9,btn7,btn10,btn8)
 
             bot.send_message(chat_id=call.message.chat.id, text="Amore Mia Frida ny12 \n"
                                                             " 08.06.23 \n"
@@ -57,13 +71,27 @@ def callback_inline(call):
 
             if male_en.index(i) + 1 > len(male_en) - 1:
                 btn9 = types.InlineKeyboardButton("📝buy", callback_data='buy_en')
+                btn7 = types.InlineKeyboardButton("◀️back", callback_data=male_en[male_en.index(i) - 1])
                 btn8 = types.InlineKeyboardButton("◀️️To main menu", callback_data='back_to_main_page_cats_en')
-                markup.add(btn9, btn8)
+                markup.add(btn9,btn7, btn8)
+
+            elif male_en.index(i) == 0:
+                btn7 = types.InlineKeyboardButton("📝buy", callback_data="buy_en")
+                btn9 = types.InlineKeyboardButton("▶️Further", callback_data=male_en[male_en.index(i) + 1])
+                btn8 = types.InlineKeyboardButton("◀️To main menu", callback_data='back_to_main_page_cats_en')
+                markup.add(btn7, btn9, btn8)
+                bot.send_message(chat_id=call.message.chat.id, text="Amore Mia Eaton ny1133(1233)\n"
+                         "07.06.23 \n"
+                         "F. ny1233,\n"
+                         "M. by1133(1233)", reply_markup=markup)
+                bot.delete_message(call.message.chat.id, call.message.message_id)
+
             else:
-                btn9 = types.InlineKeyboardButton("📝buy", callback_data='buy_en')
+                btn10 = types.InlineKeyboardButton("📝buy", callback_data='buy_en')
+                btn8 = types.InlineKeyboardButton("◀️back", callback_data=male_en[male_en.index(i) - 1])
                 btn7 = types.InlineKeyboardButton("▶️Further", callback_data=male_en[male_en.index(i) + 1])
-                btn8 = types.InlineKeyboardButton("◀️️To main menu", callback_data='back_to_main_page_cats_en')
-                markup.add(btn7,btn8,btn9)
+                btn9 = types.InlineKeyboardButton("◀️️To main menu", callback_data='back_to_main_page_cats_en')
+                markup.add(btn10,btn7,btn8,btn9)
 
             bot.send_message(chat_id=call.message.chat.id, text="Amore Mia Elwin ny1133(1233) \n"
                                                                 "08.06.23 \n"
@@ -79,35 +107,64 @@ def callback_inline(call):
 
             if females.index(i) + 1 > len(females) - 1:
                 btn9 = types.InlineKeyboardButton("📝Купить", callback_data='buy')
+                btn10 = types.InlineKeyboardButton("◀️Назад", callback_data= females[females.index(i) - 1])
                 btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
-                markup.add(btn9, btn8)
-            else:
+                markup.add(btn9,btn10,btn8)
+
+            elif females.index(i) == 0:
                 btn7 = types.InlineKeyboardButton("▶️Далее", callback_data=females[females.index(i) + 1])
                 btn9 = types.InlineKeyboardButton("📝Купить", callback_data='buy')
                 btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
                 markup.add(btn7, btn9, btn8)
+
+                bot.send_message(chat_id=call.message.chat.id, text="Amore Mia ny12 \n"
+                                                                    " 08.06.23       \n"
+                                                                    "F.BLN ny12 \n"
+                                                                    "M. ny25", reply_markup=markup)
+                bot.delete_message(call.message.chat.id, call.message.message_id)
+
+            else:
+                btn10 = types.InlineKeyboardButton("◀️Назад", callback_data= females[females.index(i) - 1])
+                btn7 = types.InlineKeyboardButton("▶️Далее", callback_data=females[females.index(i) + 1])
+                btn9 = types.InlineKeyboardButton("📝Купить", callback_data='buy')
+                btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
+                markup.add(btn9, btn7, btn10,btn8)
 
             bot.send_message(chat_id=call.message.chat.id, text="Amore Mia Frida ny12 \n"
                                                                 " 08.06.23 \n"
                          "F.BLN ny12 \n"
                          "M. ny25", reply_markup=markup)
 
-    for i in male:
-        if call.data == i:
+    for k in male:
+        if call.data == k:
             bot.delete_message(call.message.chat.id, call.message.message_id)
             bot.delete_message(call.message.chat.id, call.message.message_id - 1)
-            bot.send_photo(call.message.chat.id, photo=open(f'''./boy/{i}''', 'rb'))
+            bot.send_photo(call.message.chat.id, photo=open(f'''./boy/{k}''', 'rb'))
             markup = types.InlineKeyboardMarkup(row_width=1)
 
-            if male.index(i) + 1 > len(male) - 1:
+            if male.index(k) + 1 > len(male) - 1:
                 btn9 = types.InlineKeyboardButton("📝Купить", callback_data='buy')
+                btn10 = types.InlineKeyboardButton("◀️Назад", callback_data=male[male.index(k) - 1])
                 btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
-                markup.add(btn9, btn8)
-            else:
-                btn7 = types.InlineKeyboardButton("▶️Далее", callback_data=male[male.index(i) + 1])
+                markup.add(btn9,btn10, btn8)
+
+            elif male.index(k) == 0:
+                btn7 = types.InlineKeyboardButton("▶️Далее", callback_data=male[male.index(k) + 1])
                 btn9 = types.InlineKeyboardButton("📝Купить", callback_data='buy')
                 btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
                 markup.add(btn7, btn9, btn8)
+                bot.send_message(chat_id=call.message.chat.id, text="Amore Mia Eaton ny1133(1233)\n"
+                         "07.06.23 \n"
+                         "F. ny1233,\n"
+                         "M. by1133(1233)", reply_markup=markup)
+                bot.delete_message(call.message.chat.id, call.message.message_id)
+
+            else:
+                btn7 = types.InlineKeyboardButton("▶️Далее", callback_data=male[male.index(k) + 1])
+                btn10 = types.InlineKeyboardButton("◀️Назад", callback_data=male[male.index(k) - 1])
+                btn9 = types.InlineKeyboardButton("📝Купить", callback_data='buy')
+                btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
+                markup.add(btn9, btn7, btn10,btn8)
 
             bot.send_message(chat_id=call.message.chat.id, text="Amore Mia Elwin ny1133(1233) \n"
                                                                 "08.06.23 \n"
@@ -167,7 +224,7 @@ def callback_inline(call):
         btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
         markup.add(btn7, btn9, btn8)
 
-        bot.send_message(chat_id=call.message.chat.id, text="Amore Mia ny12,"
+        bot.send_message(chat_id=call.message.chat.id, text="Amore Mia ny12\n"
                                                             " 08.06.23       \n"
                      "F.BLN ny12 \n"
                      "M. ny25", reply_markup=markup)
@@ -197,6 +254,7 @@ def callback_inline(call):
                                    "🚌Доставка котят по всему миру .\n"
                                    "📎Доступные контакты ,социальные сети ,вы найдете в пункте  «информация о нас».",
                               reply_markup=markup, parse_mode='html')
+
 
     elif call.data == "back_to_main_page":
         markup = types.InlineKeyboardMarkup(row_width=1)
