@@ -10,46 +10,26 @@ bot = telebot.TeleBot(token)
 females = os.listdir('./girl')
 male = os.listdir('./boy')
 
-try:
-    with open('./girl_text./girl.text1.txt') as k :
-        one_girl_cats = open('./girl_text./girl.text1.txt').read()
-except FileNotFoundError:
-    print("Ошибка просмотра файла")
+
+with open('./girl_text./girl.text1.txt') as k :
+    one_girl_cats = open('./girl_text./girl.text1.txt').read()
+
+with open('./girl_text./girl.text2.txt') as k:
+    two_girl_cats = open('./girl_text./girl.text2.txt').read()
+
+with open('./girl_text./girl.text3.txt') as k:
+    three_girl_cats = open('./girl_text./girl.text3.txt').read()
 
 
-try:
-    with open('./girl_text./girl.text2.txt') as k :
-        two_girl_cats = open('./girl_text./girl.text2.txt').read()
-except FileNotFoundError:
-    print("Ошибка просмотра файла")
+with open('./boy_text./boy_text1.txt') as k:
+    one_boy_cats = open('./boy_text./boy_text1.txt').read()
 
 
-try:
-    with open('./girl_text./girl.text3.txt') as k:
-        three_girl_cats = open('./girl_text./girl.text3.txt').read()
-except FileNotFoundError:
-    print("Ошибка просмотра файла")
+with open('./boy_text./boy_text2.txt') as k:
+    two_boy_cats = open('./boy_text./boy_text2.txt').read()
 
-
-try:
-    with open('./boy_text./boy_text1.txt') as k:
-        one_boy_cats = open('./boy_text./boy_text1.txt').read()
-except FileNotFoundError:
-    print("Ошибка просмотра файла")
-
-
-try:
-    with open('./boy_text./boy_text2.txt') as k:
-        two_boy_cats = open('./boy_text./boy_text2.txt').read()
-except FileNotFoundError:
-    print("Ошибка просмотра файла")
-
-
-try:
-    with open('./boy_text./boy_text3.txt') as k:
-        three_boy_cats = open('./boy_text./boy_text3.txt').read()
-except FileNotFoundError:
-    print("Ошибка просмотра файла")
+with open('./boy_text./boy_text3.txt') as k:
+    three_boy_cats = open('./boy_text./boy_text3.txt').read()
 
 
 boy_text_cats = [one_boy_cats,two_boy_cats,three_boy_cats]
