@@ -17,12 +17,12 @@ bot = telebot.TeleBot(token)
 # а можно попробовать вариант, что программа смотрит, есть ли такая папка, если её нет, то срабатывает исключение
 # и при сработке данного исключения она создает нужную папку по нужному пути
 # Про разделения русского и англиского я еще подумаю, как лучше сделать, может и такой вариант будет лучшим
-females = os.listdir('./girl')
-male = os.listdir('./boy')
-females_en = os.listdir('./girl_en')
-male_en = os.listdir('./boy_en')
+females = os.listdir('./data/img/img.girl')
+male = os.listdir('./data/img/img.boy')
+females_en = os.listdir('./data/img/img.girl_en')
+male_en = os.listdir('./data/img/img.boy_en')
 
-male_txt = os.listdir('./data/img/img.boy/boy_text')
+male_txt = os.listdir('data/text/boy_text')
 
 # И вопрос стоит ла открывать на чтение и помещать в память так много файлов
 # Можно попробовать создать один файл, а в нем по опредленным тегам сделать разбитие
@@ -144,11 +144,11 @@ def callback_inline(call):
         if call.data == i:
             for txt in male_txt:
                 if txt.split('.')[0] == i.split('.')[0]:
-                    with open(f'''./boy_text/{txt}''') as k:
-                        text = open(f'''./boy_text/{txt}''').read()
+                    with open(f'''data/text/boy_text/{txt}''') as k:
+                        text = open(f'''data/text/boy_text/{txt}''').read()
                     bot.delete_message(call.message.chat.id, call.message.message_id)
                     bot.delete_message(call.message.chat.id, call.message.message_id - 1)
-                    bot.send_photo(call.message.chat.id, photo=open(f'''./boy/{i}''', 'rb'))
+                    bot.send_photo(call.message.chat.id, photo=open(f'''./data/img/img.boy/{i}''', 'rb'))
                     markup = types.InlineKeyboardMarkup(row_width=1)
 
                     if male.index(i) + 1 > len(male) - 1:
@@ -222,7 +222,7 @@ def callback_inline(call):
 
     elif call.data == 'girl':
         bot.delete_message(call.message.chat.id, call.message.message_id)
-        bot.send_photo(call.message.chat.id, photo=open(f'''./girl/{females[0]}''', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open(f'''./data/img/img.girl/{females[0]}''', 'rb'))
         markup = types.InlineKeyboardMarkup(row_width=1)
         btn7 = types.InlineKeyboardButton("▶️Далее", callback_data=females[1])
         btn9 = types.InlineKeyboardButton("📝Купить", callback_data='buy')
@@ -233,9 +233,9 @@ def callback_inline(call):
     elif call.data == 'boy':
         for txt in male_txt:
             if txt.split('.')[0] == male[0].split('.')[0]:
-                with open(f'''./boy_text/{male_txt[0]}''') as k:
-                    text = open(f'''./boy_text/{male_txt[0]}''').read()
-                bot.send_photo(call.message.chat.id, photo=open(f'''./boy/{male[0]}''', 'rb'))
+                with open(f'''data/text/boy_text/{txt}''') as k:
+                    text = open(f'''data/text/boy_text/{txt}''').read()
+                bot.send_photo(call.message.chat.id, photo=open(f'''./data/img/img.boy/{male[0]}''', 'rb'))
                 markup = types.InlineKeyboardMarkup(row_width=1)
                 btn7 = types.InlineKeyboardButton("▶️Далее", callback_data=male[1])
                 btn9 = types.InlineKeyboardButton("📝Купить", callback_data='buy')
