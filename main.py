@@ -1,14 +1,19 @@
 import telebot
 import os
 from telebot import types
+import configparser
 
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+token = config['DEFAULT']['token']
 
 
 # Попробуй вынести токен в отдельный файл, например назови его config или setings, можешь его сделать без формата, а можешь сделать .ini
 # например config.ini, а в нем указать:
 # token: 6474703393:AAE8JBaernftP0-SElrKPQU8wOyadjT49v0
 # а как его прочитать, то можешь посмотреть парсеры настроек или парсеры конфиг файлов в python
-token = "6474703393:AAE8JBaernftP0-SElrKPQU8wOyadjT49v0"
+
 bot = telebot.TeleBot(token)
 
 # если у тебя не будет этой папки в проекте, то программа сломается, можно сделать тсключение, чтобы не ломалась
