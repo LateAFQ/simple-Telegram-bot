@@ -5,7 +5,6 @@ import configparser
 
 config = configparser.ConfigParser()
 config.read('config.ini')
-
 token = config['DEFAULT']['token']
 
 
@@ -13,7 +12,6 @@ token = config['DEFAULT']['token']
 # например config.ini, а в нем указать:
 # token: 6474703393:AAE8JBaernftP0-SElrKPQU8wOyadjT49v0
 # а как его прочитать, то можешь посмотреть парсеры настроек или парсеры конфиг файлов в python
-
 bot = telebot.TeleBot(token)
 
 # если у тебя не будет этой папки в проекте, то программа сломается, можно сделать тсключение, чтобы не ломалась
