@@ -120,7 +120,7 @@ def callback_inline(call):
                 with open(f'''data/text/girl_text/{txt}''') as k:
                     text = k.read()
         bot.delete_message(call.message.chat.id, call.message.message_id)
-        bot.send_photo(call.message.chat.id, photo=open(f'''./data/img/img.girl/{females[0]}''', 'rb'))
+        bot.send_photo(call.message.chat.id, photo=open(f'''./data/img/img_girl/{females[0]}''', 'rb'))
         markup = types.InlineKeyboardMarkup(row_width=1)
         btn7 = types.InlineKeyboardButton("▶️Далее", callback_data=females[1])
         btn9 = types.InlineKeyboardButton("📝Забронировать", callback_data='book')
@@ -141,7 +141,7 @@ def callback_inline(call):
             if txt.split('.')[0] == male[0].split('.')[0]:
                 with open(f'''data/text/boy_text/{txt}''') as k:
                     text = k.read()
-                bot.send_photo(call.message.chat.id, photo=open(f'''./data/img/img.boy/{male[0]}''', 'rb'))
+                bot.send_photo(call.message.chat.id, photo=open(f'''./data/img/img_boy/{male[0]}''', 'rb'))
                 markup = types.InlineKeyboardMarkup(row_width=1)
                 btn7 = types.InlineKeyboardButton("▶️Далее", callback_data=male[1])
                 btn9 = types.InlineKeyboardButton("📝Забронировать", callback_data='book')
@@ -264,7 +264,7 @@ def callback_inline(call):
             if txt.split('.')[0] == females_en[0].split('.')[0]:
                 with open(f'''data/text/girl_text_en/{txt}''') as k:
                     text = k.read()
-                bot.send_photo(call.message.chat.id, photo=open(f'''./data/img/img.girl_en/{females_en[0]}''', 'rb'))
+                bot.send_photo(call.message.chat.id, photo=open(f'''./data/img/img_girl_en/{females_en[0]}''', 'rb'))
                 markup = types.InlineKeyboardMarkup(row_width=1)
                 btn1 = types.InlineKeyboardButton("▶️Further", callback_data=females_en[1])
                 btn2 = types.InlineKeyboardButton("📝book", callback_data='book_en')
@@ -286,7 +286,7 @@ def callback_inline(call):
             if txt.split('.')[0] == male_en[0].split('.')[0]:
                 with open(f'''data/text/boy_text_en/{txt}''') as k:
                     text = k.read()
-                bot.send_photo(call.message.chat.id, photo=open(f'''./data/img/img.boy_en/{male_en[0]}''', 'rb'))
+                bot.send_photo(call.message.chat.id, photo=open(f'''./data/img/img_boy_en/{male_en[0]}''', 'rb'))
                 markup = types.InlineKeyboardMarkup(row_width=1)
                 btn1 = types.InlineKeyboardButton("▶️Further", callback_data=male_en[1])
                 btn2 = types.InlineKeyboardButton("📝book", callback_data='book_en')
@@ -412,7 +412,7 @@ def callback_inline(call):
                     bot.delete_message(call.message.chat.id, call.message.message_id)
                     bot.delete_message(call.message.chat.id, call.message.message_id - 1)
                     bot.send_photo(call.message.chat.id,
-                                   photo=open(f'''./data/img/img.boy_en/{further_male_en}''', 'rb'))
+                                   photo=open(f'''./data/img/img_boy_en/{further_male_en}''', 'rb'))
                     markup = types.InlineKeyboardMarkup(row_width=1)
 
                     if male_en.index(further_male_en) + 1 > len(male_en) - 1:
@@ -450,7 +450,7 @@ def callback_inline(call):
                         text = k.read()
                     bot.delete_message(call.message.chat.id, call.message.message_id)
                     bot.delete_message(call.message.chat.id, call.message.message_id - 1)
-                    bot.send_photo(call.message.chat.id, photo=open(f'''./data/img/img.girl/{further_females}''', 'rb'))
+                    bot.send_photo(call.message.chat.id, photo=open(f'''./data/img/img_girl/{further_females}''', 'rb'))
                     markup = types.InlineKeyboardMarkup(row_width=1)
 
                     if females.index(further_females) + 1 > len(females) - 1:
@@ -489,7 +489,7 @@ def callback_inline(call):
                         text = k.read()
                     bot.delete_message(call.message.chat.id, call.message.message_id)
                     bot.delete_message(call.message.chat.id, call.message.message_id - 1)
-                    bot.send_photo(call.message.chat.id, photo=open(f'''./data/img/img.boy/{further_male}''', 'rb'))
+                    bot.send_photo(call.message.chat.id, photo=open(f'''./data/img/img_boy/{further_male}''', 'rb'))
                     markup = types.InlineKeyboardMarkup(row_width=1)
 
                     if male.index(further_male) + 1 > len(male) - 1:
