@@ -11,10 +11,10 @@ bot = telebot.TeleBot(token)
 
 # Про разделения русского и англиского я еще подумаю, как лучше сделать, может и такой вариант будет лучшим
 try:
-    females = os.listdir('./data/img/img.girl')
-    male = os.listdir('./data/img/img.boy')
-    females_en = os.listdir('./data/img/img.girl_en')
-    male_en = os.listdir('./data/img/img.boy_en')
+    females = os.listdir('./data/img/img_girl')
+    male = os.listdir('./data/img/img_boy')
+    females_en = os.listdir('./data/img/img_girl_en')
+    male_en = os.listdir('./data/img/img_boy_en')
 
     male_txt = os.listdir('data/text/boy_text')
     females_txt = os.listdir('data/text/girl_text')
@@ -25,20 +25,20 @@ except:
     os.mkdir('./data/img')
     os.mkdir('./data/text')
 
-    os.mkdir('./data/img/img.girl')
-    os.mkdir('./data/img/img.boy')
-    os.mkdir('./data/img/img.girl_en')
-    os.mkdir('./data/img/img.boy_en')
+    os.mkdir('./data/img/img_girl')
+    os.mkdir('./data/img/img_boy')
+    os.mkdir('./data/img/img_girl_en')
+    os.mkdir('./data/img/img_boy_en')
 
     os.mkdir('data/text/boy_text')
     os.mkdir('data/text/girl_text')
     os.mkdir('data/text/boy_text_en')
     os.mkdir('data/text/girl_text_en')
 
-    females = os.listdir('./data/img/img.girl')
-    male = os.listdir('./data/img/img.boy')
-    females_en = os.listdir('./data/img/img.girl_en')
-    male_en = os.listdir('./data/img/img.boy_en')
+    females = os.listdir('./data/img/img_girl')
+    male = os.listdir('./data/img/img_boy')
+    females_en = os.listdir('./data/img/img_girl_en')
+    male_en = os.listdir('./data/img/img_boy_en')
 
     male_txt = os.listdir('data/text/boy_text')
     females_txt = os.listdir('data/text/girl_text')
