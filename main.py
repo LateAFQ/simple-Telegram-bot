@@ -2,6 +2,13 @@ import telebot
 import os
 from telebot import types
 import configparser
+import sqlite3
+
+with sqlite3.connect('db/database_db') as db:
+    cursor = db.cursor()
+    query = """ CREATE TABLE IF NOT EXISTS expenses(bool img, name TEXT) """
+    cursor.execute(query)
+    db.commit()
 
 config = configparser.ConfigParser()
 config.read('config.ini')
