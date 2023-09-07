@@ -3,9 +3,12 @@ import os
 from telebot import types
 import configparser
 import sqlite3
-from database import create_table
+import database
 
-create_table()
+database.init()
+database.create_table()
+database.quit()
+database.create_table()
 
 config = configparser.ConfigParser()
 config.read('config.ini')
