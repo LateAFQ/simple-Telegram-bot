@@ -5,11 +5,6 @@ import configparser
 import sqlite3
 import database
 
-database.init()
-database.create_table()
-database.quit()
-database.create_table()
-
 config = configparser.ConfigParser()
 config.read('config.ini')
 token = config['DEFAULT']['token']
