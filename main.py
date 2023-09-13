@@ -446,11 +446,8 @@ def callback_inline(call):
 
     for further_females in females:
         if call.data == further_females:
-            for txt in database.get_catgirl()[0:]:
-                text = txt[1]
-                # if txt.split('.')[0] == further_females.split('.')[0]
-                # with open(f'''data/text/girl_text/{txt}''') as k:
-
+            for txt in database.get_catgirl()[:]:
+                text = txt[0:][1:5]
                 bot.delete_message(call.message.chat.id, call.message.message_id)
                 bot.delete_message(call.message.chat.id, call.message.message_id - 1)
                 bot.send_photo(call.message.chat.id, photo=open(f'''./data/img/img_girl/{further_females}''', 'rb'))
@@ -463,7 +460,7 @@ def callback_inline(call):
                     btn11 = types.InlineKeyboardButton("◀️В главное меню",
                                                        callback_data='back_to_main_page_kittens')
                     markup.add(btn10, btn9, btn11)
-                    bot.send_message(chat_id=call.message.chat.id, text=text, reply_markup=markup)
+                    bot.send_message(chat_id=call.message.chat.id, text=text,reply_markup=markup)
 
                 elif females.index(further_females) == 0:
                     btn7 = types.InlineKeyboardButton("▶️Далее",
