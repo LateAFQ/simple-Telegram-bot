@@ -4,6 +4,7 @@ from telebot import types
 import configparser
 import sqlite3
 import database
+from PIL import Image
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -449,11 +450,11 @@ def callback_inline(call):
             girls_info = database.get_catgirl()
             print('girls_info', girls_info[0][1], girls_info[0][2], girls_info[0][3], girls_info[0][3])
             for txt in girls_info:
-                text = {'name': txt[1], 'date_birthday': txt[2], 'father': txt[3], 'mom': txt[4]}
+                text = {'name': txt[1], 'date_birthday': txt[2], 'father': txt[3], 'mom': txt[4],"photo": txt[6]}
                 print('text', text)
                 bot.delete_message(call.message.chat.id, call.message.message_id)
                 bot.delete_message(call.message.chat.id, call.message.message_id - 1)
-                bot.send_photo(call.message.chat.id, photo=open(f'''./data/img/img_girl/{further_females}''', 'rb'))
+                bot.send_photo(call.message.chat.id, photo=open(f'''{text["photo"]}''', 'rb'))
                 markup = types.InlineKeyboardMarkup(row_width=1)
 
                 if females.index(further_females) + 1 > len(females) - 1:
