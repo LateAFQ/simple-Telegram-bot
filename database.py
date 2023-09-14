@@ -1,8 +1,5 @@
 import sqlite3
-import base64
-from PIL import Image
-from io import BytesIO
-import os
+
 
 conn = None
 
@@ -28,9 +25,9 @@ def get_cats():
                     SELECT * 
                     FROM CAT 
                     WHERE reserv = 0
-                      """).fetchall()
+                    """).fetchall()
 
-    return print(response)
+    return response
 
 
 # выполнение sql запроса
@@ -62,13 +59,14 @@ def get_catgirl():
                     """).fetchall()
     return response
 
-def get_img():
-    response = db_sql("""
-                    SELECT * 
-                    FROM CAT 
-                    WHERE reserv = 0 and gender = 0
-                    """).fetchall()
-    return response
+
+# def get_img():
+#     response = db_sql("""
+#                     SELECT * 
+#                     FROM CAT 
+#                     WHERE reserv = 0 and gender = 0
+#                     """).fetchall()
+#     return response
 
 
 # выход из базы
