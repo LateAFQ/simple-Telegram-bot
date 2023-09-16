@@ -6,6 +6,9 @@ import sqlite3
 import database
 from PIL import Image
 
+database.init()
+db_info_girl = database.get_catgirl()
+db_info_girl2 = database.get_catgirl()
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -14,7 +17,7 @@ token = config['DEFAULT']['token']
 bot = telebot.TeleBot(token)
 #
 # Про разделения русского и англиского я еще подумаю, как лучше сделать, может и такой вариант будет лучшим
-#try:
+# try:
 
 females = ['./data/img/img_girl']
 male = os.listdir('./data/img/img_boy')
@@ -25,30 +28,32 @@ male_txt = os.listdir('data/text/boy_text')
 females_txt = os.listdir('data/text/girl_text')
 male_txt_en = os.listdir('data/text/boy_text_en')
 females_txt_en = os.listdir('data/text/girl_text_en')
-#except:
-    #os.mkdir('./data')
-    #os.mkdir('./data/img')
-    #os.mkdir('./data/text')
 
-    #os.mkdir('./data/img/img_girl')
-    #os.mkdir('./data/img/img_boy')
-    #os.mkdir('./data/img/img_girl_en')
-    #os.mkdir('./data/img/img_boy_en')
 
-    #os.mkdir('data/text/boy_text')
-    #os.mkdir('data/text/girl_text')
-    #os.mkdir('data/text/boy_text_en')
-    #os.mkdir('data/text/girl_text_en')
+# except:
+# os.mkdir('./data')
+# os.mkdir('./data/img')
+# os.mkdir('./data/text')
 
-    #females = os.listdir('./data/img/img_girl')
-    #male = os.listdir('./data/img/img_boy')
-    #females_en = os.listdir('./data/img/img_girl_en')
-    #male_en = os.listdir('./data/img/img_boy_en')
+# os.mkdir('./data/img/img_girl')
+# os.mkdir('./data/img/img_boy')
+# os.mkdir('./data/img/img_girl_en')
+# os.mkdir('./data/img/img_boy_en')
 
-    #male_txt = os.listdir('data/text/boy_text')
-    #females_txt = os.listdir('data/text/girl_text')
-    #male_txt_en = os.listdir('data/text/boy_text_en')
-    #females_txt_en = os.listdir('data/text/girl_text_en')
+# os.mkdir('data/text/boy_text')
+# os.mkdir('data/text/girl_text')
+# os.mkdir('data/text/boy_text_en')
+# os.mkdir('data/text/girl_text_en')
+
+# females = os.listdir('./data/img/img_girl')
+# male = os.listdir('./data/img/img_boy')
+# females_en = os.listdir('./data/img/img_girl_en')
+# male_en = os.listdir('./data/img/img_boy_en')
+
+# male_txt = os.listdir('data/text/boy_text')
+# females_txt = os.listdir('data/text/girl_text')
+# male_txt_en = os.listdir('data/text/boy_text_en')
+# females_txt_en = os.listdir('data/text/girl_text_en')
 
 
 @bot.message_handler(commands=['start'])
@@ -112,8 +117,6 @@ def callback_inline(call):
                               text="Выберите пол питомца:", reply_markup=markup)
 
     elif call.data == 'girl':
-        print(database.get_catgirl())
-        global info_cats
         if len(females) == 0:
             markup = types.InlineKeyboardMarkup(row_width=1)
             btn1 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page')
@@ -121,17 +124,20 @@ def callback_inline(call):
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                                   text='К сожалению сейчас, котят нет в наличии', reply_markup=markup)
             return
-        #for first_girl in database.get_catgirl():
 
-            #bot.delete_message(call.message.chat.id, call.message.message_id)
-            #bot.send_photo(call.message.chat.id, photo=open(f'''{db["photo"]}''', 'rb'))
-            #markup = types.InlineKeyboardMarkup(row_width=1)
-            #btn7 = types.InlineKeyboardButton("▶️Далее", callback_data = info_cats)
-           # btn9 = types.InlineKeyboardButton("📝Забронировать", callback_data='book')
-            #btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
-            #markup.add(btn7, btn9, btn8)
-            #bot.send_message(chat_id=call.message.chat.id, text=text, reply_markup=markup)
-#
+        else:
+            bot.delete_message(call.message.chat.id, call.message.message_id)
+            bot.send_photo(call.message.chat.id, photo=open(f'''{db_info_girl[0]["photo"]}''', 'rb'))
+            markup = types.InlineKeyboardMarkup(row_width=1)
+            btn7 = types.InlineKeyboardButton("▶️Далее", callback_data=db_info_girl2[1])
+            btn9 = types.InlineKeyboardButton("📝Забронировать", callback_data='book')
+            btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
+            markup.add(btn7, btn9, btn8)
+            bot.send_message(chat_id=call.message.chat.id, text=f'''{db_info_girl[0]["name"]}
+{db_info_girl[0]["date_of_birth"]}
+{db_info_girl[0]["father"]}
+{db_info_girl[0]["mother"]}''', reply_markup=markup)
+    #
     elif call.data == 'boy':
         if len(male) == 0:
             markup = types.InlineKeyboardMarkup(row_width=1)
@@ -369,7 +375,7 @@ def callback_inline(call):
                               reply_markup=markup, parse_mode='html')
 
     for further_females_en in females_en:
-        if call.data == further_females_en:
+        if call.data == db_info_girl:
             for txt in females_txt_en:
                 if txt.split('.')[0] == further_females_en.split('.')[0]:
                     with open(f'''data/text/girl_text_en/{txt}''') as k:
@@ -479,6 +485,5 @@ def callback_inline(call):
                         btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
                         markup.add(btn9, btn8)
                         bot.send_message(chat_id=call.message.chat.id, text=text, reply_markup=markup)
-
 
 bot.polling(none_stop=True)

@@ -51,6 +51,7 @@ def get_catboy():
 
 
 def get_catgirl():
+    #init()
     response = db_sql("""
                     SELECT * 
                     FROM CAT 
@@ -69,6 +70,7 @@ def get_catgirl():
             'reserv': cat_info[-1]
         })
     return res_response
+
 
 
 # def get_img():
