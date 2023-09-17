@@ -51,7 +51,7 @@ def get_catboy():
 
 
 def get_catgirl():
-    #init()
+    # init()
     response = db_sql("""
                     SELECT * 
                     FROM CAT 
@@ -72,7 +72,6 @@ def get_catgirl():
     return res_response
 
 
-
 # def get_img():
 #     response = db_sql("""
 #                     SELECT *
@@ -85,4 +84,5 @@ def get_catgirl():
 # выход из базы
 def quit():
     conn.close()
+
 

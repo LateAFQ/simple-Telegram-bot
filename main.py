@@ -7,8 +7,9 @@ import database
 from PIL import Image
 
 database.init()
-db_info_girl = database.get_catgirl()
-db_info_girl2 = database.get_catgirl()
+
+db_info_girl = [database.get_catgirl()]
+db_info_girl2 = [database.get_catgirl()]
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -108,7 +109,7 @@ def callback_inline(call):
 
     elif call.data == 'main':
         markup = types.InlineKeyboardMarkup(row_width=1)
-        btn4 = types.InlineKeyboardButton(f'🐱Девочка ({len(females)})', callback_data="girl")
+        btn4 = types.InlineKeyboardButton(f'🐱Девочка ({len(male)})', callback_data="girl")
         btn5 = types.InlineKeyboardButton(f'😸Мальчик ({len(male)})', callback_data="boy")
         markup.row(btn4, btn5)
         btn6 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page')
@@ -117,7 +118,7 @@ def callback_inline(call):
                               text="Выберите пол питомца:", reply_markup=markup)
 
     elif call.data == 'girl':
-        if len(females) == 0:
+        if len(male) == 0:
             markup = types.InlineKeyboardMarkup(row_width=1)
             btn1 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page')
             markup.add(btn1)
@@ -127,16 +128,16 @@ def callback_inline(call):
 
         else:
             bot.delete_message(call.message.chat.id, call.message.message_id)
-            bot.send_photo(call.message.chat.id, photo=open(f'''{db_info_girl[0]["photo"]}''', 'rb'))
+            bot.send_photo(call.message.chat.id, photo=open(f'''{db_info_girl[0][0]["photo"]}''', 'rb'))
             markup = types.InlineKeyboardMarkup(row_width=1)
-            btn7 = types.InlineKeyboardButton("▶️Далее", callback_data=db_info_girl2[1])
+            btn7 = types.InlineKeyboardButton("▶️Далее", callback_data="further_females")
             btn9 = types.InlineKeyboardButton("📝Забронировать", callback_data='book')
             btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
             markup.add(btn7, btn9, btn8)
-            bot.send_message(chat_id=call.message.chat.id, text=f'''{db_info_girl[0]["name"]}
-{db_info_girl[0]["date_of_birth"]}
-{db_info_girl[0]["father"]}
-{db_info_girl[0]["mother"]}''', reply_markup=markup)
+            bot.send_message(chat_id=call.message.chat.id, text=f'''{db_info_girl[0][0]["name"]}
+{db_info_girl[0][0]["date_of_birth"]}
+{db_info_girl[0][0]["father"]}
+{db_info_girl[0][0]["mother"]}''', reply_markup=markup)
     #
     elif call.data == 'boy':
         if len(male) == 0:
@@ -253,7 +254,7 @@ def callback_inline(call):
 
     elif call.data == 'main_en':
         markup = types.InlineKeyboardMarkup(row_width=1)
-        btn1 = types.InlineKeyboardButton(f'🐱females ({len(females)})', callback_data="girl_en")
+        btn1 = types.InlineKeyboardButton(f'🐱females ({len(male)})', callback_data="girl_en")
         btn2 = types.InlineKeyboardButton(f'😸male ({len(male)})', callback_data="boy_en")
         markup.row(btn1, btn2)
         btn6 = types.InlineKeyboardButton("◀️To main menu", callback_data='back_to_main_page_en')
@@ -452,6 +453,42 @@ def callback_inline(call):
                         markup.add(btn10, btn9)
                         bot.send_message(chat_id=call.message.chat.id, text=text, reply_markup=markup)
 
+    database.init()
+    if call.data == "further_females":
+        for i in range(len(database.get_catgirl())):
+            for females in db_info_girl:
+                bot.delete_message(call.message.chat.id, call.message.message_id )
+                bot.delete_message(call.message.chat.id, call.message.message_id - 1)
+                bot.send_photo(call.message.chat.id, photo=open(f'''{females[i + 1]["photo"]}''', 'rb'))
+                markup = types.InlineKeyboardMarkup(row_width=1)
+                btn7 = types.InlineKeyboardButton("▶️Далее", callback_data="further")
+                btn10 = types.InlineKeyboardButton("◀️Назад", callback_data="йцу")
+                markup.row(btn10, btn7)
+                btn9 = types.InlineKeyboardButton("📝Забронировать", callback_data='book')
+                btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
+                markup.add(btn9, btn8)
+                bot.send_message(chat_id=call.message.chat.id, text=f'''{females[i+1]["name"]}
+{females[i+1]["date_of_birth"]}
+{females[i+1]["father"]}
+{females[i+1]["mother"]}''', reply_markup=markup)
+
+            if call.data == "further":
+                for further_females in db_info_girl[0][i + 1]:
+                        bot.delete_message(call.message.chat.id, call.message.message_id)
+                        bot.delete_message(call.message.chat.id, call.message.message_id - 1)
+                        bot.send_photo(call.message.chat.id, photo=open(f'''{further_females[i + 1]["photo"]}''', 'rb'))
+                        markup = types.InlineKeyboardMarkup(row_width=1)
+                        btn7 = types.InlineKeyboardButton("▶️Далее", callback_data="further")
+                        btn10 = types.InlineKeyboardButton("◀️Назад", callback_data="back")
+                        markup.row(btn10, btn7)
+                        btn9 = types.InlineKeyboardButton("📝Забронировать", callback_data='book')
+                        btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
+                        markup.add(btn9, btn8)
+                        bot.send_message(chat_id=call.message.chat.id, text=f'''{further_females[i + 1]["name"]}
+{further_females[i + 1]["date_of_birth"]}
+{further_females[i + 1]["father"]}
+{further_females[i + 1]["mother"]}''', reply_markup=markup)
+
     for further_male in male:
         if call.data == further_male:
             for txt in male_txt:
@@ -485,5 +522,6 @@ def callback_inline(call):
                         btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
                         markup.add(btn9, btn8)
                         bot.send_message(chat_id=call.message.chat.id, text=text, reply_markup=markup)
+
 
 bot.polling(none_stop=True)
