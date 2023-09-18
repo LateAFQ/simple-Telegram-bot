@@ -39,15 +39,23 @@ def db_sql(sql):
 
 def get_catboy():
     response = db_sql("""
-                    SELECT 
-                        name,
-                        date_of_birth,
-                        mother, 
-                        father
+                    SELECT *
                     FROM CAT 
                     WHERE reserv = 0 and gender = 1
                     """).fetchall()
-    return response
+    res_response = []
+    for cat_info in response:
+        res_response.append({
+            'num': cat_info[0],
+            'name': cat_info[1],
+            'date_of_birth': cat_info[2],
+            'father': cat_info[3],
+            'mother': cat_info[4],
+            'gender': cat_info[5],
+            'photo': cat_info[6],
+            'reserv': cat_info[-1]
+        })
+    return res_response
 
 
 def get_catgirl():

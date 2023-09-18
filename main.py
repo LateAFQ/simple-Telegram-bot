@@ -2,23 +2,21 @@ import telebot
 import os
 from telebot import types
 import configparser
-import sqlite3
 import database
-from PIL import Image
 
 database.init()
 
-db_info_girl = [database.get_catgirl()]
-db_info_girl2 = [database.get_catgirl()]
+info_girl = database.get_catgirl()
+info_boy = database.get_catboy()
+
+info_girl_en = database.get_catgirl()
+info_boy_en = database.get_catboy()
 
 config = configparser.ConfigParser()
 config.read('config.ini')
 token = config['DEFAULT']['token']
 
 bot = telebot.TeleBot(token)
-#
-# Про разделения русского и англиского я еще подумаю, как лучше сделать, может и такой вариант будет лучшим
-# try:
 
 females = ['./data/img/img_girl']
 male = os.listdir('./data/img/img_boy')
@@ -118,48 +116,30 @@ def callback_inline(call):
                               text="Выберите пол питомца:", reply_markup=markup)
 
     elif call.data == 'girl':
-        if len(male) == 0:
-            markup = types.InlineKeyboardMarkup(row_width=1)
-            btn1 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page')
-            markup.add(btn1)
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                  text='К сожалению сейчас, котят нет в наличии', reply_markup=markup)
-            return
+        bot.delete_message(call.message.chat.id, call.message.message_id)
+        bot.send_photo(call.message.chat.id, photo=open(f'''{info_girl[0]["photo"]}''', 'rb'))
+        markup = types.InlineKeyboardMarkup(row_width=1)
+        btn7 = types.InlineKeyboardButton("▶️Далее", callback_data=info_girl[1]['name'])
+        btn9 = types.InlineKeyboardButton("📝Забронировать", callback_data='book')
+        btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
+        markup.add(btn7, btn9, btn8)
+        bot.send_message(chat_id=call.message.chat.id, text=f'''{info_girl[0]["name"]}
+{info_girl[0]["date_of_birth"]}
+{info_girl[0]["father"]}
+{info_girl[0]["mother"]}''', reply_markup=markup)
 
-        else:
-            bot.delete_message(call.message.chat.id, call.message.message_id)
-            bot.send_photo(call.message.chat.id, photo=open(f'''{db_info_girl[0][0]["photo"]}''', 'rb'))
-            markup = types.InlineKeyboardMarkup(row_width=1)
-            btn7 = types.InlineKeyboardButton("▶️Далее", callback_data="further_females")
-            btn9 = types.InlineKeyboardButton("📝Забронировать", callback_data='book')
-            btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
-            markup.add(btn7, btn9, btn8)
-            bot.send_message(chat_id=call.message.chat.id, text=f'''{db_info_girl[0][0]["name"]}
-{db_info_girl[0][0]["date_of_birth"]}
-{db_info_girl[0][0]["father"]}
-{db_info_girl[0][0]["mother"]}''', reply_markup=markup)
-    #
     elif call.data == 'boy':
-        if len(male) == 0:
-            markup = types.InlineKeyboardMarkup(row_width=1)
-            btn1 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page')
-            markup.add(btn1)
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                  text='К сожалению сейчас, котят нет в наличии', reply_markup=markup)
-            return
-
-        for txt in male_txt:
-            if txt.split('.')[0] == male[0].split('.')[0]:
-                with open(f'''data/text/boy_text/{txt}''') as k:
-                    text = k.read()
-                bot.send_photo(call.message.chat.id, photo=open(f'''./data/img/img_boy/{male[0]}''', 'rb'))
-                markup = types.InlineKeyboardMarkup(row_width=1)
-                btn7 = types.InlineKeyboardButton("▶️Далее", callback_data=male[1])
-                btn9 = types.InlineKeyboardButton("📝Забронировать", callback_data='book')
-                btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
-                markup.add(btn7, btn9, btn8)
-                bot.delete_message(call.message.chat.id, call.message.message_id)
-                bot.send_message(chat_id=call.message.chat.id, text=text, reply_markup=markup)
+        bot.send_photo(call.message.chat.id, photo=open(f'''{info_boy[0]["photo"]}''', 'rb'))
+        markup = types.InlineKeyboardMarkup(row_width=1)
+        btn7 = types.InlineKeyboardButton("▶️Далее", callback_data=info_boy[1]['name'])
+        btn9 = types.InlineKeyboardButton("📝Забронировать", callback_data='book')
+        btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
+        markup.add(btn7, btn9, btn8)
+        bot.delete_message(call.message.chat.id, call.message.message_id)
+        bot.send_message(chat_id=call.message.chat.id, text=f'''{info_boy[0]["name"]}
+{info_boy[0]["date_of_birth"]}
+{info_boy[0]["father"]}
+{info_boy[0]["mother"]}''', reply_markup=markup)
 
     elif call.data == "back_to_main_page_kittens":
         markup = types.InlineKeyboardMarkup(row_width=1)
@@ -263,48 +243,31 @@ def callback_inline(call):
                               text="Select your pet's gender:", reply_markup=markup)
 
     elif call.data == 'girl_en':
-        if len(females_en) == 0:
-            markup = types.InlineKeyboardMarkup(row_width=1)
-            btn1 = types.InlineKeyboardButton("◀️To main menu", callback_data='back_to_main_page_en')
-            markup.add(btn1)
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                  text='Sorry, there are no kittens available at the moment.', reply_markup=markup)
-            return
-
-        for txt in females_txt_en:
-            if txt.split('.')[0] == females_en[0].split('.')[0]:
-                with open(f'''data/text/girl_text_en/{txt}''') as k:
-                    text = k.read()
-                bot.send_photo(call.message.chat.id, photo=open(f'''./data/img/img_girl_en/{females_en[0]}''', 'rb'))
-                markup = types.InlineKeyboardMarkup(row_width=1)
-                btn1 = types.InlineKeyboardButton("▶️Further", callback_data=females_en[1])
-                btn2 = types.InlineKeyboardButton("📝book", callback_data='book_en')
-                btn3 = types.InlineKeyboardButton("◀️To main menu", callback_data='back_to_main_page_cats_en')
-                markup.add(btn1, btn2, btn3)
-                bot.delete_message(call.message.chat.id, call.message.message_id)
-                bot.send_message(chat_id=call.message.chat.id, text=text, reply_markup=markup)
+        bot.send_photo(call.message.chat.id, photo=open(f'''{info_girl_en[0]["photo"]}''', 'rb'))
+        markup = types.InlineKeyboardMarkup(row_width=1)
+        btn1 = types.InlineKeyboardButton("▶️Further", callback_data=info_girl_en[1]["name"])
+        btn2 = types.InlineKeyboardButton("📝book", callback_data='book_en')
+        btn3 = types.InlineKeyboardButton("◀️To main menu", callback_data='back_to_main_page_cats_en')
+        markup.add(btn1, btn2, btn3)
+        bot.delete_message(call.message.chat.id, call.message.message_id)
+        bot.send_message(chat_id=call.message.chat.id, text=f'''{info_girl_en[0]["name"]},
+{info_girl_en[0]["date_of_birth"]}
+{info_girl_en[0]["father"]}
+{info_girl_en[0]["mother"]}''',
+                         reply_markup=markup)
 
     elif call.data == 'boy_en':
-        if len(male_en) == 0:
-            markup = types.InlineKeyboardMarkup(row_width=1)
-            btn1 = types.InlineKeyboardButton("◀️To main menu", callback_data='back_to_main_page_en')
-            markup.add(btn1)
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                  text='Sorry, there are no kittens available at the moment.', reply_markup=markup)
-            return
-
-        for txt in male_txt_en:
-            if txt.split('.')[0] == male_en[0].split('.')[0]:
-                with open(f'''data/text/boy_text_en/{txt}''') as k:
-                    text = k.read()
-                bot.send_photo(call.message.chat.id, photo=open(f'''./data/img/img_boy_en/{male_en[0]}''', 'rb'))
-                markup = types.InlineKeyboardMarkup(row_width=1)
-                btn1 = types.InlineKeyboardButton("▶️Further", callback_data=male_en[1])
-                btn2 = types.InlineKeyboardButton("📝book", callback_data='book_en')
-                btn3 = types.InlineKeyboardButton("◀️To main menu", callback_data='back_to_main_page_cats_en')
-                markup.add(btn1, btn2, btn3)
-                bot.delete_message(call.message.chat.id, call.message.message_id)
-                bot.send_message(chat_id=call.message.chat.id, text=text, reply_markup=markup)
+        bot.send_photo(call.message.chat.id, photo=open(f'''{info_boy_en[0]["photo"]}''', 'rb'))
+        markup = types.InlineKeyboardMarkup(row_width=1)
+        btn1 = types.InlineKeyboardButton("▶️Further", callback_data=info_boy_en[1]["name"])
+        btn2 = types.InlineKeyboardButton("📝book", callback_data='book_en')
+        btn3 = types.InlineKeyboardButton("◀️To main menu", callback_data='back_to_main_page_cats_en')
+        markup.add(btn1, btn2, btn3)
+        bot.delete_message(call.message.chat.id, call.message.message_id)
+        bot.send_message(chat_id=call.message.chat.id, text=f'''{info_boy_en[0]["name"]},
+{info_boy_en[0]["date_of_birth"]}
+{info_boy_en[0]["father"]}
+{info_boy_en[0]["mother"]}''', reply_markup=markup)
 
     elif call.data == "book_en":
         markup = types.InlineKeyboardMarkup(row_width=1)
@@ -375,153 +338,193 @@ def callback_inline(call):
                                    "about us'.",
                               reply_markup=markup, parse_mode='html')
 
-    for further_females_en in females_en:
-        if call.data == db_info_girl:
-            for txt in females_txt_en:
-                if txt.split('.')[0] == further_females_en.split('.')[0]:
-                    with open(f'''data/text/girl_text_en/{txt}''') as k:
-                        text = k.read()
-                    bot.delete_message(call.message.chat.id, call.message.message_id)
-                    bot.delete_message(call.message.chat.id, call.message.message_id - 1)
-                    bot.send_photo(call.message.chat.id,
-                                   photo=open(f'''./data/img/img.girl_en/{further_females_en}''', 'rb'))
-                    markup = types.InlineKeyboardMarkup(row_width=1)
+    # девочки,англ, перебор кнопки далее назад
+    for girl_en in info_girl_en:
+        if call.data == girl_en['name']:
+            bot.delete_message(call.message.chat.id, call.message.message_id)
+            bot.delete_message(call.message.chat.id, call.message.message_id - 1)
+            bot.send_photo(call.message.chat.id, photo=open(f'''{girl_en['photo']}''', 'rb'))
 
-                    if females_en.index(further_females_en) + 1 > len(females_en) - 1:
-                        btn9 = types.InlineKeyboardButton("📝book", callback_data='book_en')
-                        btn7 = types.InlineKeyboardButton("◀️back", callback_data=females_en[
-                            females_en.index(further_females_en) - 1])
-                        btn8 = types.InlineKeyboardButton("◀️️To main menu", callback_data='back_to_main_page_cats_en')
-                        markup.add(btn7, btn9, btn8)
-                        bot.send_message(chat_id=call.message.chat.id, text=text, reply_markup=markup)
-
-                    elif females_en.index(further_females_en) == 0:
-                        btn7 = types.InlineKeyboardButton("📝book", callback_data='book_en')
-                        btn9 = types.InlineKeyboardButton("▶️Further", callback_data=females_en[
-                            females_en.index(further_females_en) + 1])
-                        btn8 = types.InlineKeyboardButton("◀️To main menu", callback_data='back_to_main_page_cats_en')
-                        markup.add(btn9, btn7, btn8)
-                        bot.send_message(chat_id=call.message.chat.id, text=text, reply_markup=markup)
-
-                    else:
-                        btn7 = types.InlineKeyboardButton("▶️Further", callback_data=females_en[
-                            females_en.index(further_females_en) + 1])
-                        btn9 = types.InlineKeyboardButton("📝book", callback_data='book_en')
-                        btn10 = types.InlineKeyboardButton("◀️back", callback_data=females_en[
-                            females_en.index(further_females_en) - 1])
-                        markup.row(btn10, btn7)
-                        btn8 = types.InlineKeyboardButton("◀️️To main menu", callback_data='back_to_main_page_cats_en')
-                        markup.add(btn9, btn8)
-                        bot.send_message(chat_id=call.message.chat.id, text=text, reply_markup=markup)
-
-    for further_male_en in male_en:
-        if call.data == further_male_en:
-            for txt in male_txt_en:
-                if txt.split('.')[0] == further_male_en.split('.')[0]:
-                    with open(f'''data/text/boy_text_en/{txt}''') as k:
-                        text = k.read()
-                    bot.delete_message(call.message.chat.id, call.message.message_id)
-                    bot.delete_message(call.message.chat.id, call.message.message_id - 1)
-                    bot.send_photo(call.message.chat.id,
-                                   photo=open(f'''./data/img/img_boy_en/{further_male_en}''', 'rb'))
-                    markup = types.InlineKeyboardMarkup(row_width=1)
-
-                    if male_en.index(further_male_en) + 1 > len(male_en) - 1:
-                        btn9 = types.InlineKeyboardButton("📝book", callback_data='book_en')
-                        btn7 = types.InlineKeyboardButton("◀️back",
-                                                          callback_data=male_en[male_en.index(further_male_en) - 1])
-                        btn8 = types.InlineKeyboardButton("◀️️To main menu", callback_data='back_to_main_page_cats_en')
-                        markup.add(btn7, btn9, btn8)
-                        bot.send_message(chat_id=call.message.chat.id, text=text, reply_markup=markup)
-
-                    elif male_en.index(further_male_en) == 0:
-                        btn7 = types.InlineKeyboardButton("📝book", callback_data='book_en')
-                        btn9 = types.InlineKeyboardButton("▶️Further",
-                                                          callback_data=male_en[male_en.index(further_male_en) + 1])
-                        btn8 = types.InlineKeyboardButton("◀️To main menu", callback_data='back_to_main_page_cats_en')
-                        markup.add(btn9, btn7, btn8)
-                        bot.send_message(chat_id=call.message.chat.id, text=text, reply_markup=markup)
-
-                    else:
-                        btn10 = types.InlineKeyboardButton("📝book", callback_data='book_en')
-                        btn8 = types.InlineKeyboardButton("◀️back",
-                                                          callback_data=male_en[male_en.index(further_male_en) - 1])
-                        btn7 = types.InlineKeyboardButton("▶️Further",
-                                                          callback_data=male_en[male_en.index(further_male_en) + 1])
-                        markup.row(btn8, btn7)
-                        btn9 = types.InlineKeyboardButton("◀️️To main menu", callback_data='back_to_main_page_cats_en')
-                        markup.add(btn10, btn9)
-                        bot.send_message(chat_id=call.message.chat.id, text=text, reply_markup=markup)
-
-    database.init()
-    if call.data == "further_females":
-        for i in range(len(database.get_catgirl())):
-            for females in db_info_girl:
-                bot.delete_message(call.message.chat.id, call.message.message_id )
-                bot.delete_message(call.message.chat.id, call.message.message_id - 1)
-                bot.send_photo(call.message.chat.id, photo=open(f'''{females[i + 1]["photo"]}''', 'rb'))
+            if girl_en == info_girl_en[-1]:
                 markup = types.InlineKeyboardMarkup(row_width=1)
-                btn7 = types.InlineKeyboardButton("▶️Далее", callback_data="further")
-                btn10 = types.InlineKeyboardButton("◀️Назад", callback_data="йцу")
-                markup.row(btn10, btn7)
+                btn10 = types.InlineKeyboardButton("◀️back",
+                                                   callback_data=info_girl_en[info_girl_en.index(girl_en) - 1]['name'])
+                markup.row(btn10)
+                btn9 = types.InlineKeyboardButton("📝Book", callback_data='book_en')
+                btn8 = types.InlineKeyboardButton("◀️To main menu", callback_data='back_to_main_page_cats_en')
+                markup.add(btn9, btn8)
+                bot.send_message(chat_id=call.message.chat.id, text=f'''{girl_en['name']}
+{girl_en['date_of_birth']}
+{girl_en['father']}
+{girl_en['mother']}''', reply_markup=markup)
+
+            elif girl_en == info_girl[0]:
+                markup = types.InlineKeyboardMarkup(row_width=1)
+                btn7 = types.InlineKeyboardButton("▶️Further",
+                                                  callback_data=info_girl_en[info_girl_en.index(girl_en) + 1]['name'])
+                markup.row(btn7)
+                btn9 = types.InlineKeyboardButton("📝Book", callback_data='book_en')
+                btn8 = types.InlineKeyboardButton("◀️To main menu", callback_data='back_to_main_page_cats_en')
+                markup.add(btn9, btn8)
+                bot.send_message(chat_id=call.message.chat.id, text=f'''{girl_en['name']}
+{girl_en['date_of_birth']}
+{girl_en['father']}
+{girl_en['mother']}''', reply_markup=markup)
+
+            else:
+                markup = types.InlineKeyboardMarkup(row_width=1)
+                btn7 = types.InlineKeyboardButton("▶️Further",
+                                                  callback_data=info_girl_en[info_girl_en.index(girl_en) + 1]['name'])
+                btn10 = types.InlineKeyboardButton("◀️back",
+                                                   callback_data=info_girl_en[info_girl_en.index(girl_en) - 1]['name'])
+                markup.row(btn7, btn10)
+                btn9 = types.InlineKeyboardButton("📝Book", callback_data='book_en')
+                btn8 = types.InlineKeyboardButton("◀️To main menu", callback_data='back_to_main_page_cats_en')
+                markup.add(btn9, btn8)
+                bot.send_message(chat_id=call.message.chat.id, text=f'''{girl_en['name']}
+{girl_en['date_of_birth']}
+{girl_en['father']}
+{girl_en['mother']}''', reply_markup=markup)
+
+    # мальчики,англ, перебор кнопки далее назад
+    for boy_en in info_boy_en:
+        if call.data == boy_en['name']:
+            bot.delete_message(call.message.chat.id, call.message.message_id)
+            bot.delete_message(call.message.chat.id, call.message.message_id - 1)
+            bot.send_photo(call.message.chat.id, photo=open(f'''{boy_en['photo']}''', 'rb'))
+
+            if boy_en == info_boy_en[-1]:
+                markup = types.InlineKeyboardMarkup(row_width=1)
+                btn10 = types.InlineKeyboardButton("◀️back",
+                                                   callback_data=info_boy_en[info_boy_en.index(boy_en) - 1]['name'])
+                markup.row(btn10)
+                btn9 = types.InlineKeyboardButton("📝Book", callback_data='book_en')
+                btn8 = types.InlineKeyboardButton("◀️To main menu", callback_data='back_to_main_page_cats_en')
+                markup.add(btn9, btn8)
+                bot.send_message(chat_id=call.message.chat.id, text=f'''{boy_en['name']}
+{boy_en['date_of_birth']}
+{boy_en['father']}
+{boy_en['mother']}''', reply_markup=markup)
+
+            elif boy_en == info_boy_en[0]:
+                markup = types.InlineKeyboardMarkup(row_width=1)
+                btn7 = types.InlineKeyboardButton("▶️Further",
+                                                  callback_data=info_boy_en[info_boy_en.index(boy_en) + 1][
+                                                      'name'])
+                markup.row(btn7)
+                btn9 = types.InlineKeyboardButton("📝Book", callback_data='book_en')
+                btn8 = types.InlineKeyboardButton("◀️To main menu", callback_data='back_to_main_page_cats_en')
+                markup.add(btn9, btn8)
+                bot.send_message(chat_id=call.message.chat.id, text=f'''{boy_en['name']}
+{boy_en['date_of_birth']}
+{boy_en['father']}
+{boy_en['mother']}''', reply_markup=markup)
+            else:
+                markup = types.InlineKeyboardMarkup(row_width=1)
+                btn7 = types.InlineKeyboardButton("▶️Further",callback_data=info_boy_en[info_boy_en.index(boy_en) + 1]['name'])
+                btn10 = types.InlineKeyboardButton("◀️back",
+                                                   callback_data=info_boy_en[info_boy_en.index(boy_en) - 1]['name'])
+                markup.row(btn7, btn10)
+                btn9 = types.InlineKeyboardButton("📝Book", callback_data='book_en')
+                btn8 = types.InlineKeyboardButton("◀️To main menu", callback_data='back_to_main_page_cats_en')
+                markup.add(btn9, btn8)
+                bot.send_message(chat_id=call.message.chat.id, text=f'''{boy_en['name']}
+{boy_en['date_of_birth']}
+{boy_en['father']}
+{boy_en['mother']}''', reply_markup=markup)
+
+    # девочки,рус, перебор кнопки далее, назад
+    for girl in info_girl:
+        if call.data == girl['name']:
+            bot.delete_message(call.message.chat.id, call.message.message_id)
+            bot.delete_message(call.message.chat.id, call.message.message_id - 1)
+            bot.send_photo(call.message.chat.id, photo=open(f'''{girl['photo']}''', 'rb'))
+
+            if girl == info_girl[-1]:
+                markup = types.InlineKeyboardMarkup(row_width=1)
+                btn10 = types.InlineKeyboardButton("◀️Назад",
+                                                   callback_data=info_girl[info_girl.index(girl) - 1]['name'])
+                markup.row(btn10)
                 btn9 = types.InlineKeyboardButton("📝Забронировать", callback_data='book')
                 btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
                 markup.add(btn9, btn8)
-                bot.send_message(chat_id=call.message.chat.id, text=f'''{females[i+1]["name"]}
-{females[i+1]["date_of_birth"]}
-{females[i+1]["father"]}
-{females[i+1]["mother"]}''', reply_markup=markup)
+                bot.send_message(chat_id=call.message.chat.id, text=f'''{girl['name']}
+{girl['date_of_birth']}
+{girl['father']}
+{girl['mother']}''', reply_markup=markup)
 
-            if call.data == "further":
-                for further_females in db_info_girl[0][i + 1]:
-                        bot.delete_message(call.message.chat.id, call.message.message_id)
-                        bot.delete_message(call.message.chat.id, call.message.message_id - 1)
-                        bot.send_photo(call.message.chat.id, photo=open(f'''{further_females[i + 1]["photo"]}''', 'rb'))
-                        markup = types.InlineKeyboardMarkup(row_width=1)
-                        btn7 = types.InlineKeyboardButton("▶️Далее", callback_data="further")
-                        btn10 = types.InlineKeyboardButton("◀️Назад", callback_data="back")
-                        markup.row(btn10, btn7)
-                        btn9 = types.InlineKeyboardButton("📝Забронировать", callback_data='book')
-                        btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
-                        markup.add(btn9, btn8)
-                        bot.send_message(chat_id=call.message.chat.id, text=f'''{further_females[i + 1]["name"]}
-{further_females[i + 1]["date_of_birth"]}
-{further_females[i + 1]["father"]}
-{further_females[i + 1]["mother"]}''', reply_markup=markup)
+            elif girl == info_girl[0]:
+                markup = types.InlineKeyboardMarkup(row_width=1)
+                btn7 = types.InlineKeyboardButton("▶️Далее", callback_data=info_girl[info_girl.index(girl) + 1]['name'])
+                markup.row(btn7)
+                btn9 = types.InlineKeyboardButton("📝Забронировать", callback_data='book')
+                btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
+                markup.add(btn9, btn8)
+                bot.send_message(chat_id=call.message.chat.id, text=f'''{girl['name']}
+{girl['date_of_birth']}
+{girl['father']}
+{girl['mother']}''', reply_markup=markup)
 
-    for further_male in male:
-        if call.data == further_male:
-            for txt in male_txt:
-                if txt.split('.')[0] == further_male.split('.')[0]:
-                    with open(f'''data/text/boy_text/{txt}''') as k:
-                        text = k.read()
-                    bot.delete_message(call.message.chat.id, call.message.message_id)
-                    bot.delete_message(call.message.chat.id, call.message.message_id - 1)
-                    bot.send_photo(call.message.chat.id, photo=open(f'''./data/img/img_boy/{further_male}''', 'rb'))
-                    markup = types.InlineKeyboardMarkup(row_width=1)
+            else:
+                markup = types.InlineKeyboardMarkup(row_width=1)
+                btn7 = types.InlineKeyboardButton("▶️Далее", callback_data=info_girl[info_girl.index(girl) + 1]['name'])
+                btn10 = types.InlineKeyboardButton("◀️Назад",
+                                                   callback_data=info_girl[info_girl.index(girl) - 1]['name'])
+                markup.row(btn7, btn10)
+                btn9 = types.InlineKeyboardButton("📝Забронировать", callback_data='book')
+                btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
+                markup.add(btn9, btn8)
+                bot.send_message(chat_id=call.message.chat.id, text=f'''{girl['name']}
+                {girl['date_of_birth']}
+                {girl['father']}
+                {girl['mother']}''', reply_markup=markup)
 
-                    if male.index(further_male) + 1 > len(male) - 1:
-                        btn9 = types.InlineKeyboardButton("📝Забронировать", callback_data='book')
-                        btn10 = types.InlineKeyboardButton("◀️Назад", callback_data=male[male.index(further_male) - 1])
-                        btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
-                        markup.add(btn10, btn9, btn8)
-                        bot.send_message(chat_id=call.message.chat.id, text=text, reply_markup=markup)
+# мальчики,рус, перебор кнопки далее, назад
+    for boy in info_boy:
+        if call.data == boy['name']:
+            bot.delete_message(call.message.chat.id, call.message.message_id)
+            bot.delete_message(call.message.chat.id, call.message.message_id - 1)
+            bot.send_photo(call.message.chat.id, photo=open(f'''{boy['photo']}''', 'rb'))
 
-                    elif male.index(further_male) == 0:
-                        btn7 = types.InlineKeyboardButton("▶️Далее", callback_data=male[male.index(further_male) + 1])
-                        btn9 = types.InlineKeyboardButton("📝Забронировать", callback_data='book')
-                        btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
-                        markup.add(btn7, btn9, btn8)
-                        bot.send_message(chat_id=call.message.chat.id, text=text, reply_markup=markup)
+            if boy == info_boy[-1]:
+                markup = types.InlineKeyboardMarkup(row_width=1)
+                btn10 = types.InlineKeyboardButton("◀️Назад",
+                                                   callback_data=info_boy[info_boy.index(boy) - 1]['name'])
+                markup.row(btn10)
+                btn9 = types.InlineKeyboardButton("📝Забронировать", callback_data='book')
+                btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
+                markup.add(btn9, btn8)
+                bot.send_message(chat_id=call.message.chat.id, text=f'''{boy['name']}
+{boy['date_of_birth']}
+{boy['father']}
+{boy['mother']}''', reply_markup=markup)
 
-                    else:
-                        btn7 = types.InlineKeyboardButton("▶️Далее", callback_data=male[male.index(further_male) + 1])
-                        btn10 = types.InlineKeyboardButton("◀️Назад", callback_data=male[male.index(further_male) - 1])
-                        markup.row(btn10, btn7)
-                        btn9 = types.InlineKeyboardButton("📝Забронировать", callback_data='book')
-                        btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
-                        markup.add(btn9, btn8)
-                        bot.send_message(chat_id=call.message.chat.id, text=text, reply_markup=markup)
+            elif boy == info_boy[0]:
+                markup = types.InlineKeyboardMarkup(row_width=1)
+                btn7 = types.InlineKeyboardButton("▶️Далее", callback_data=info_boy[info_boy.index(boy) + 1]['name'])
+                markup.row(btn7)
+                btn9 = types.InlineKeyboardButton("📝Забронировать", callback_data='book')
+                btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
+                markup.add(btn9, btn8)
+                bot.send_message(chat_id=call.message.chat.id, text=f'''{boy['name']}
+{boy['date_of_birth']}
+{boy['father']}
+{boy['mother']}''', reply_markup=markup)
+
+            else:
+                markup = types.InlineKeyboardMarkup(row_width=1)
+                btn7 = types.InlineKeyboardButton("▶️Далее",
+                                                  callback_data=info_boy[info_boy.index(boy) + 1]['name'])
+                btn10 = types.InlineKeyboardButton("◀️Назад",
+                                                   callback_data=info_boy[info_boy.index(boy) - 1]['name'])
+                markup.row(btn7, btn10)
+                btn9 = types.InlineKeyboardButton("📝Забронировать", callback_data='book')
+                btn8 = types.InlineKeyboardButton("◀️В главное меню", callback_data='back_to_main_page_kittens')
+                markup.add(btn9, btn8)
+                bot.send_message(chat_id=call.message.chat.id, text=f'''{boy['name']}
+{boy['date_of_birth']}
+{boy['father']}
+{boy['mother']}''', reply_markup=markup)
 
 
 bot.polling(none_stop=True)
