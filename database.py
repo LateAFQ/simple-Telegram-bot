@@ -80,14 +80,47 @@ def get_catgirl():
         })
     return res_response
 
+def get_boy_eng():
+    response = db_sql("""
+                    SELECT *
+                    FROM CAT 
+                    WHERE reserv = 0 and gender = 1
+                    """).fetchall()
+    res_response = []
+    for cat_info in response:
+        res_response.append({
+            'num': cat_info[0],
+            'name': cat_info[1] + " eng",
+            'date_of_birth': cat_info[2],
+            'father': cat_info[3],
+            'mother': cat_info[4],
+            'gender': cat_info[5],
+            'photo': cat_info[6],
+            'reserv': cat_info[-1]
+        })
+    return res_response
 
-# def get_img():
-#     response = db_sql("""
-#                     SELECT *
-#                     FROM CAT
-#                     WHERE reserv = 0 and gender = 0
-#                     """).fetchall()
-#     return response
+def get_girl_en():
+    # init()
+    response = db_sql("""
+                    SELECT * 
+                    FROM CAT 
+                    WHERE reserv = 0 and gender = 0
+                    """).fetchall()
+
+    res_response = []
+    for cat_info in response:
+        res_response.append({
+            'num': cat_info[0],
+            'name': cat_info[1] + " eng",
+            'date_of_birth': cat_info[2],
+            'father': cat_info[3],
+            'mother': cat_info[4],
+            'gender': cat_info[5],
+            'photo': cat_info[6],
+            'reserv': cat_info[-1]
+        })
+    return res_response
 
 
 # выход из базы
