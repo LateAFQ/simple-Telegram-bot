@@ -65,6 +65,7 @@ def get_catgirl():
                     FROM CAT 
                     WHERE reserv = 0 and gender = 0
                     """).fetchall()
+
     res_response = []
     for cat_info in response:
         res_response.append({
