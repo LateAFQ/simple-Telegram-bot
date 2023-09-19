@@ -80,7 +80,7 @@ def get_catgirl():
         })
     return res_response
 
-def get_boy_eng():
+def get_boy_en():
     response = db_sql("""
                     SELECT *
                     FROM CAT 
@@ -126,5 +126,7 @@ def get_girl_en():
 # выход из базы
 def quit():
     conn.close()
+
+
 
 
