@@ -3,6 +3,8 @@ import os
 from telebot import types
 import configparser
 import database
+import time
+from datetime import datetime
 
 database.init()
 
@@ -55,6 +57,18 @@ females_txt_en = os.listdir('data/text/girl_text_en')
 # females_txt_en = os.listdir('data/text/girl_text_en')
 
 
+def init():
+    try:
+        print('Bot status:START', datetime.now())
+        bot.polling(none_stop=True)
+    except:
+        print('Polling Error')
+        bot.stop_polling()
+        print('Bot status: STOP', datetime.now())
+        time.sleep(5)
+        init()
+
+
 @bot.message_handler(commands=['start'])
 def start_handler(message):
     markup = types.InlineKeyboardMarkup(row_width=1)
@@ -63,10 +77,6 @@ def start_handler(message):
     markup.add(btn1, btn2)
     bot.send_message(message.chat.id, '<b> 😽Пожалуйста,выберите язык. </b>  \n'
                                       '<b> Please select a language.😽 </b>', reply_markup=markup, parse_mode='html')
-
-
-# Все ситуации я посмтрю завтра более детально, думаю можно как-то будет вынести в отдельную переменную язык и разветвление сделать чуть меньше и проще
-# просто код полностью дублируется, а можно же проверять переменную lang и смотреть если англиский, то тодно выводить если наш РУССКИЙ, то другие
 
 
 @bot.callback_query_handler(func=lambda call: True)
@@ -421,7 +431,8 @@ def callback_inline(call):
 {boy_en['mother']}''', reply_markup=markup)
             else:
                 markup = types.InlineKeyboardMarkup(row_width=1)
-                btn7 = types.InlineKeyboardButton("▶️Further",callback_data=info_boy_en[info_boy_en.index(boy_en) + 1]['name'])
+                btn7 = types.InlineKeyboardButton("▶️Further",
+                                                  callback_data=info_boy_en[info_boy_en.index(boy_en) + 1]['name'])
                 btn10 = types.InlineKeyboardButton("◀️back",
                                                    callback_data=info_boy_en[info_boy_en.index(boy_en) - 1]['name'])
                 markup.row(btn7, btn10)
@@ -479,7 +490,7 @@ def callback_inline(call):
                 {girl['father']}
                 {girl['mother']}''', reply_markup=markup)
 
-# мальчики,рус, перебор кнопки далее, назад
+    # мальчики,рус, перебор кнопки далее, назад
     for boy in info_boy:
         if call.data == boy['name']:
             bot.delete_message(call.message.chat.id, call.message.message_id)
@@ -527,4 +538,4 @@ def callback_inline(call):
 {boy['mother']}''', reply_markup=markup)
 
 
-bot.polling(none_stop=True)
+init()
